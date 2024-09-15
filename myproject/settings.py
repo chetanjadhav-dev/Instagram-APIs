@@ -1,20 +1,39 @@
 from pathlib import Path
-from decouple import config
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-DEBUG = config('DEBUG', default=False, cast=bool)
-SECRET_KEY = config('DJANGO_SECRET_KEY')
-GOOGLE_APPLICATION_CREDENTIALS = config('GOOGLE_APPLICATION_CREDENTIALS')
+# Load .env file
+load_dotenv()
 
+# Django settings
+
+# Secret key
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+
+# Debug
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+
+# Allowed hosts
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(',')
+
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DATABASE_URL').split('/')[-1],
-        'USER': config('DATABASE_URL').split(':')[1].split('//')[1],
-        'PASSWORD': config('DATABASE_URL').split(':')[2].split('@')[0],
-        'HOST': config('DATABASE_URL').split('@')[1].split(':')[0],
-        'PORT': config('DATABASE_URL').split(':')[2].split('/')[0],
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
+
+# GCP Cloud Storage settings
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+GOOGLE_CLOUD_PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT_ID')
+GOOGLE_CLOUD_STORAGE_BUCKET = os.getenv('GOOGLE_CLOUD_STORAGE_BUCKET')
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,13 +43,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--p#*=h%c7lfln^%_ix=31x@yzyh0ral3d3$h!c7xoz9(eynqy%'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# settings.py
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'https://cloudsql-pgsql-435413.et.r.appspot.com',
+]
 
 
 # Application definition
@@ -115,7 +135,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
