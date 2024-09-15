@@ -1,0 +1,10 @@
+runtime: python311 
+handlers:
+- url: /static
+  static_dir: static
+- url: /.*
+  script: wsgi.app
+  
+env_variables:
+  DJANGO_SETTINGS_MODULE: "myproject.settings"  
+  GOOGLE_APPLICATION_CREDENTIALS: "cloudsql-pgsql-435413-02bc139a30b4.json"
