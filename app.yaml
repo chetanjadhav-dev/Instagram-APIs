@@ -7,4 +7,4 @@ handlers:
   
 env_variables:
   DJANGO_SETTINGS_MODULE: "myproject.settings"  
-  GOOGLE_APPLICATION_CREDENTIALS: "C:\Users\cheta\Desktop\Instagram\Working\PostsGCP\cloudsql-pgsql-435413-02bc139a30b4.json"
+  GOOGLE_APPLICATION_CREDENTIALS: "C:\Users\cheta\Desktop\Instagram\Working\PostsGCP\cloudsql-pgsql-435413-02bc139a30b4.json" 
